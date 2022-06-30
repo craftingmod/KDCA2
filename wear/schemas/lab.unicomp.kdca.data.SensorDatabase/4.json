@@ -1,0 +1,88 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "da134b3ea2c144e91730f7b04e6194f7",
+    "entities": [
+      {
+        "tableName": "sensor_data",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`acc_x` REAL NOT NULL, `acc_y` REAL NOT NULL, `acc_z` REAL NOT NULL, `gyro_x` REAL NOT NULL, `gyro_y` REAL NOT NULL, `gyro_z` REAL NOT NULL, `pressure` REAL NOT NULL, `heart_rate` REAL NOT NULL, `timestamp` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "accX",
+            "columnName": "acc_x",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accY",
+            "columnName": "acc_y",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accZ",
+            "columnName": "acc_z",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gyroX",
+            "columnName": "gyro_x",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gyroY",
+            "columnName": "gyro_y",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gyroZ",
+            "columnName": "gyro_z",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pressure",
+            "columnName": "pressure",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "heartRate",
+            "columnName": "heart_rate",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'da134b3ea2c144e91730f7b04e6194f7')"
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="code_name" translatable="false">KNIH</string>
+    <!-- Foreground Channel  -->
+    <string name="collect_channel_title">Collecting Service Alert</string>
+    <string name="collect_channel_description">Service alert for collecting movement data.</string>
+    <!-- Foreground Notification -->
+    <string name="collect_noti_title">Collecting Movement Data</string>
+    <string name="collect_noti_description">We are collecting your movement data!</string>
+
+    <!-- Permission Channel  -->
+    <string name="perm_channel_title">Permission Request</string>
+    <!-- Permission Notification -->
+    <string name="perm_noti_title">We require a permission to run!</string>
+    <string name="perm_noti_description">App is requiring a permission to collect heart beat data. Please allow to use.</string>
+</resources>

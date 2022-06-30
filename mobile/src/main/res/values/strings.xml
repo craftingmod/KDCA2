@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name" translatable="false">@string/code_name</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <!-- Permission Notification -->
+    <string name="perm_dialog_title">We require a permission to run!</string>
+    <string name="perm_dialog_description">App is requiring a permission to collect heart beat data. Please allow to use.</string>
+    <!-- MainActivity -->
+    <string name="service_switch">Activate</string>
+    <string name="save_phone_csv">Save phone collecting data</string>
+    <string name="save_wear_csv">Save wear collecting data</string>
+
+    <string name="worker_channel" translatable="false">worker_channel</string>
+    <string name="worker_title">Worker is running</string>
+    <string name="worker_description">Please wait some times!</string>
+</resources>

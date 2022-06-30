@@ -1,0 +1,102 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "780748eda74d994c875d9ad176e82a21",
+    "entities": [
+      {
+        "tableName": "acceleration_data",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`X` REAL NOT NULL, `Y` REAL NOT NULL, `Z` REAL NOT NULL, `timestamp` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "X",
+            "columnName": "X",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Y",
+            "columnName": "Y",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Z",
+            "columnName": "Z",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "gyroscope_data",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`X` REAL NOT NULL, `Y` REAL NOT NULL, `Z` REAL NOT NULL, `timestamp` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "X",
+            "columnName": "X",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Y",
+            "columnName": "Y",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Z",
+            "columnName": "Z",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '780748eda74d994c875d9ad176e82a21')"
+    ]
+  }
+}
