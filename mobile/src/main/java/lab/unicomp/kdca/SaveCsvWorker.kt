@@ -3,6 +3,7 @@ package lab.unicomp.kdca
 import android.content.Context
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -15,14 +16,26 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import lab.unicomp.kdca.common.data.SensorDatabase
 import lab.unicomp.kdca.common.data.WearSensorData
+import java.io.File
 
 class SaveCsvWorker(appContext: Context, workerParam: WorkerParameters) : CoroutineWorker(appContext, workerParam) {
 
   override suspend fun doWork(): Result {
     val uri = inputData.getString("file_uri") ?: return Result.failure()
-    val isWear = inputData.getBoolean("is_wear", false)
+    // val isWear = inputData.getBoolean("is_wear", false)
     setForeground(createForegroundInfo())
     return withContext(Dispatchers.IO) {
+      val dbFilePath = applicationContext.getDatabasePath("sensor_data.db")
+
+      Log.d("MobiusSyncWorker", "Files: ${applicationContext.filesDir.list()?.joinToString(",")}")
+      Log.d("MobiusSyncWorker", "Path: ${applicationContext.getDatabasePath("sensor_data")}")
+
+      dbFilePath.inputStream().use { input ->
+        applicationContext.contentResolver.openOutputStream(Uri.parse(uri), "w")?.use { output ->
+          input.copyTo(output, 1024)
+        }
+      }
+      /*
       val database = SensorDatabase.getInstance(applicationContext)
       applicationContext.contentResolver.openOutputStream(Uri.parse(uri), "w")?.use { os ->
         os.bufferedWriter().use { writer ->
@@ -45,6 +58,7 @@ class SaveCsvWorker(appContext: Context, workerParam: WorkerParameters) : Corout
           }
         }
       }
+       */
       Result.success()
     }
   }
@@ -54,8 +68,6 @@ class SaveCsvWorker(appContext: Context, workerParam: WorkerParameters) : Corout
     val title = applicationContext.getString(R.string.worker_title)
     val desc = applicationContext.getString(R.string.worker_description)
     // This PendingIntent can be used to cancel the worker
-    val intent = WorkManager.getInstance(applicationContext)
-      .createCancelPendingIntent(getId())
 
     // Create a Notification channel if necessary
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

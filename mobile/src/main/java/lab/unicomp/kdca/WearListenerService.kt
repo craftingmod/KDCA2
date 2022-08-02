@@ -10,14 +10,14 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.last
 import lab.unicomp.kdca.common.data.SensorDatabase
 import lab.unicomp.kdca.common.data.WearSensorData
 import java.io.InputStream
 import java.nio.ByteBuffer
+import kotlin.math.abs
 
 /**
  * https://github.com/android/wear-os-samples/blob/master/DataLayer/Wearable/src/main/java/com/example/android/wearable/datalayer/DataLayerListenerService.kt
@@ -37,17 +37,23 @@ class WearListenerService : WearableListenerService() {
   // message client 할당
   private val messageClient by lazy { Wearable.getMessageClient(this) }
   private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+  private lateinit var prefStore:DataStoreModule
+
+  override fun onCreate() {
+    super.onCreate()
+    prefStore = DataStoreModule(applicationContext)
+  }
 
 
   override fun onDataChanged(dataEvents: DataEventBuffer) {
     super.onDataChanged(dataEvents)
-    // 가장 마지막 동기화 불러오기
+    Log.d(TAG, "onDataChanged called!!")
     val currentTime = System.currentTimeMillis()
-    val syncConf = applicationContext.getSharedPreferences("sync_conf", Context.MODE_PRIVATE)
-    val lastSyncTime = syncConf.getLong("last_sync_time", 0L)
     // 이벤트마다 루프
     for (dataEvent in dataEvents) {
       val uri = dataEvent.dataItem.uri // URI
+      Log.d(TAG, "URI Path: ${uri.path}")
+      Log.d(TAG, "Event type: ${dataEvent.type}")
       when (uri.path) {
         SENSOR_PATH -> {
           if (dataEvent.type == DataEvent.TYPE_CHANGED) {
@@ -56,6 +62,9 @@ class WearListenerService : WearableListenerService() {
             val assetInputStream:InputStream? = Tasks.await(Wearable.getDataClient(applicationContext)
               .getFdForAsset(assetData))?.inputStream
             scope.launch {
+              Log.d(TAG, "InputStream: ${assetInputStream}")
+              // 가장 마지막 동기화 불러오기
+              val lastSyncTime = prefStore.lastSync.first()
               // 센서 값 받아오기 (어셋에서)
               if (assetInputStream != null) {
                 // 데이터가 있으면
@@ -63,19 +72,17 @@ class WearListenerService : WearableListenerService() {
                 val sensorBytes = assetInputStream.readBytes()
                 val sensorData = arrayListOf<WearSensorData>()
                 for (i in sensorBytes.indices step 40) {
-                  // 40바이트 읽어오기
-                  val buffer = ByteBuffer.wrap(sensorBytes, i, 40)
-                  // 데이터 추가하기
+                  // 40바이트 읽어 데이터 추가하기
                   sensorData.add(WearSensorData(
-                    accX = buffer.getFloat(0),
-                    accY = buffer.getFloat(4),
-                    accZ = buffer.getFloat(8),
-                    gyroX = buffer.getFloat(12),
-                    gyroY = buffer.getFloat(16),
-                    gyroZ = buffer.getFloat(20),
-                    pressure = buffer.getFloat(24),
-                    heartRate = buffer.getInt(28),
-                    timestamp = buffer.getLong(32),
+                    accX = byteArrayToFloat(sensorBytes, i + 0),
+                    accY = byteArrayToFloat(sensorBytes, i + 4),
+                    accZ = byteArrayToFloat(sensorBytes, i + 8),
+                    gyroX = byteArrayToFloat(sensorBytes, i + 12),
+                    gyroY = byteArrayToFloat(sensorBytes, i + 16),
+                    gyroZ = byteArrayToFloat(sensorBytes, i + 20),
+                    pressure = byteArrayToFloat(sensorBytes, i + 24),
+                    heartRate = byteArrayToInt(sensorBytes, i + 28),
+                    timestamp = byteArrayToLong(sensorBytes, i + 32),
                   ))
                 }
                 Log.d(TAG, "sensorData Length: ${sensorData.size}")
@@ -84,13 +91,17 @@ class WearListenerService : WearableListenerService() {
                 dao.insertData(*sensorData.toTypedArray())
                 Log.d(TAG, "sensorData[0]: ${sensorData.firstOrNull()}")
                 // 간격 확인
-                if (currentTime - lastSyncTime >= 1000 * 60 * 14) {
-                  syncConf.edit().putLong("last_sync_time", currentTime).apply()
+                // 1000 * 60 * 14 + 1000 * 30
+                Log.d(TAG, "lastSyncTime: $lastSyncTime / $currentTime")
+                if (abs(currentTime - lastSyncTime) >= 1000 * 60 * 14) {
+                  Log.d(TAG, "test Worker")
                   // Work 실행
                   WorkManager.getInstance(applicationContext).enqueueUniqueWork(
-                    "MobiusSyncWorker-Wear", ExistingWorkPolicy.APPEND,
+                    "MobiusUploadWorker",
+                    ExistingWorkPolicy.REPLACE,
                     OneTimeWorkRequest.Builder(MobiusSyncWorker::class.java).build()
                   )
+                  prefStore.setLastSync(currentTime)
                 }
               }
             }
@@ -111,5 +122,22 @@ class WearListenerService : WearableListenerService() {
         )
       }
     }
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    scope.cancel()
+  }
+
+  private fun byteArrayToFloat(arr:ByteArray, offset:Int): Float {
+    return Float.fromBits(byteArrayToInt(arr, offset))
+  }
+
+  private fun byteArrayToInt(arr:ByteArray, offset:Int): Int {
+    return ByteBuffer.wrap(arr.sliceArray(offset until offset+4)).int
+  }
+
+  private fun byteArrayToLong(arr:ByteArray, offset:Int): Long {
+    return ByteBuffer.wrap(arr.sliceArray(offset until offset+8)).long
   }
 }

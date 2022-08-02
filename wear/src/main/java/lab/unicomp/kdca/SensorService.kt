@@ -37,7 +37,7 @@ class SensorService : BaseSensorService() {
   // static 멤버들
   companion object {
     private const val TAG = "SensorService"
-    private const val testSocket = true
+    private const val testSocket = false
     fun startService(context:Context) {
       val intent = Intent(context, SensorService::class.java)
       ContextCompat.startForegroundService(context, intent)
@@ -45,7 +45,7 @@ class SensorService : BaseSensorService() {
   }
 
   override val sensorTypes: List<Int> = listOf(Sensor.TYPE_ACCELEROMETER, Sensor.TYPE_GYROSCOPE, Sensor.TYPE_PRESSURE, Sensor.TYPE_HEART_RATE)
-  override val sensorHz: List<Float> = listOf(16.6F, 16.6F, 2F, 2F)
+  override val sensorHz: List<Float> = listOf(10F, 10F, 10F, 10F)
 
   // 센서 데이터들 캐시
   private var sensorCache: MutableWearSensorData = MutableWearSensorData(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0, 0L)
@@ -113,14 +113,14 @@ class SensorService : BaseSensorService() {
       dao.insertData(sensorCache.toImmutable())
       Log.d(TAG, "[Sensor] Sensor data pushed: $sensorCache")
     }
-    /*
+
     if (testSocket && (currentTime - lastSynced) >= 15000) {
       // 15초 sync 테스트
       val testSyncWorkRequest = OneTimeWorkRequestBuilder<SyncWorker>().build()
       WorkManager.getInstance(this).enqueue(testSyncWorkRequest)
       lastSynced = currentTime
     }
-     */
+
   }
 
 }

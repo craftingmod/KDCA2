@@ -12,4 +12,17 @@
 
     <string name="worker_title">일을 하고 있습니다</string>
     <string name="worker_description">잠시만 기다려 주세요!</string>
+
+    <!-- UI -->
+    <string name="show_warning">유의 사항 열람하기 </string>
+    <string name="register_survey">설문조사 회원가입</string>
+    <string name="survey">설문조사</string>
+    <string name="warning_title">유의 사항</string>
+    <string name="register_sid">등록하기</string>
+    <string name="sid_desc">유저 번호 입력</string>
+
+    <string name="export_db">데이터 내보내기</string>
+
+    <string name="suggest_sid_input">사용하기 위해 유저 번호를 등록해 주세요.</string>
+    <string name="welcome_sid">등록이 완료되었습니다.\어서오세요, S%s!</string>
 </resources>

@@ -1,0 +1,20 @@
+[Put it down with a drag]
+
+#1. Please put your smartphone on the bed when you sleep
+(If possible, proceed with the experiment at the same time as charging.)
+
+#2. Make sure the watch and smartphone are always together (within 7 meters)
+
+#3. Keep the remaining capacity inside the smartphone above 5GB
+
+#4. If you are experiencing any problems, please call 010-xxxx-xxxx
+
+#5. This app automatically uploads sensor data to the server every 15 minutes in an environment with Wi-Fi and cellular networks Please maintain your Internet connection
+
+#6. After 1 day, the information data is in the KNIH folder under the download folder
+Compressed into a .tar file by date
+If today is July 13, [KNIH220712.tar]
+
+#7. Click the upload button after the survey, and if there is a [tar file] that corresponds to the previous day's date among [tar file] generated in #6, you can upload it. If you don't have that file, it doesn't matter because the data is uploaded well to the server
+
+#8.The app runs in the background, so please do not force the app to shut down with an app such as a cache cleaner

@@ -5,37 +5,103 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
     tools:context=".MainActivity">
 
-    <!-- Switch of Service -->
+    <ImageView
+        android:src="@drawable/dev_logo"
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="8dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/show_warning_btn"
+        android:text="@string/show_warning"
+        app:backgroundTint="@color/purple_700"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/register_btn"
+        android:text="@string/register_survey"
+        app:backgroundTint="@color/teal_700"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/survey_btn"
+        android:text="@string/survey"
+        app:backgroundTint="@color/teal_200"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_db_btn"
+        android:text="@string/export_db"
+        app:backgroundTint="#64B5F6"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/sid_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sid_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="@string/sid_desc"
+            app:placeholderText="@string/sid_placeholder"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:text="@string/service_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <com.google.android.material.switchmaterial.SwitchMaterial
+            app:layout_constraintEnd_toStartOf="@id/sid_register_btn">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="3"
+                android:singleLine="true"
+                android:textAlignment="textStart"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.button.MaterialButton
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/sid_register_btn"
+            android:text="@string/register_sid"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="0dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/save_phone_btn"
-        android:text="@string/save_phone_csv"
+    <TextView
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:id="@+id/sid_suggest_text"
+        tools:text="Hello YOU!"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/save_wear_btn"
-        android:text="@string/save_wear_csv"
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="50dp" />
 
 </LinearLayout>

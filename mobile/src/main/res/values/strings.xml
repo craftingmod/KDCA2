@@ -13,4 +13,17 @@
     <string name="worker_channel" translatable="false">worker_channel</string>
     <string name="worker_title">Worker is running</string>
     <string name="worker_description">Please wait some times!</string>
+
+    <!-- UI -->
+    <string name="show_warning">View Precautions</string>
+    <string name="register_survey">Survey Registration</string>
+    <string name="survey">Survey</string>
+    <string name="warning_title">Experiment information</string>
+    <string name="register_sid">Register</string>
+    <string name="sid_desc">Input User Number</string>
+    <string name="sid_placeholder" translatable="false">123</string>
+    <string name="export_db">Export Data</string>
+
+    <string name="suggest_sid_input">Please register your user id to use.</string>
+    <string name="welcome_sid">Registered successfully.\nWelcome, S%s!</string>
 </resources>

@@ -43,7 +43,7 @@ class SensorService : BaseSensorService() {
   }
 
   override val sensorTypes: List<Int> = listOf(Sensor.TYPE_ACCELEROMETER, Sensor.TYPE_GYROSCOPE, Sensor.TYPE_PRESSURE, Sensor.TYPE_LIGHT)
-  override val sensorHz: List<Float> = listOf(16.6F, 16.6F, 2F, 2F, 16.6F)
+  override val sensorHz: List<Float> = listOf(10F, 10F, 10F, 10F, 10F)
 
   // 센서 데이터들 캐시
   private var sensorCache: MutablePhoneSensorData = MutablePhoneSensorData(

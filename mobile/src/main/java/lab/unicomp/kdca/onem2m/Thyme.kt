@@ -69,7 +69,7 @@ class Thyme(
     suspend fun createApplicationEntity(resourceName:String, description:String = ""):M2MApplicationEntity? {
       return requestAE(
         fnname = "createApplicationEntity",
-        fuel = Fuel.post("$address/${cse.resourceName}/$resourceName")
+        fuel = Fuel.post("$address/${cse.resourceName}")
           .jsonBody(
             Json.encodeToString(M2M_AEreq_Frame.serializer(), M2M_AEreq_Frame(
               M2M_AEreq(

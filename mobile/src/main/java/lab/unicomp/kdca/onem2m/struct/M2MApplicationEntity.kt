@@ -31,7 +31,7 @@ data class M2MApplicationEntity(
   @SerialName("api")
   val apiString: String,
   @SerialName("poa")
-  val pointOfAccess: List<String>,
+  val pointOfAccess: List<String> = listOf(),
   @SerialName("aei")
   val applicationEntityId: String,
 )
